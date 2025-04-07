@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <title>Kalimat Palindrom</title>
+</head>
+
+<body>
+    <h2>Palindrom atau Bukan?</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Kalimat</th>
+                <th>Hasil</th>
+            </tr>
+        </thead>
+        <tbody id="tabel-palindrom"></tbody>
+    </table>
+
+    <script>
+        const kalimats = [
+            "Angsa",
+            "KataK",
+            "kasur empuk",
+            "Aku Suka Kamu",
+            "Ibu Ratna antar ubi"
+        ];
+
+        const tbody = document.getElementById('tabel-palindrom');
+
+        kalimats.forEach((kalimat, index) => {
+            let cek_kalimat = kalimat.toLowerCase();
+            let palindrom = cek_kalimat === cek_kalimat.split('').reverse().join('');
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${index + 1}</td>
+                <td class="kiri">${kalimat}</td>
+                <td>${palindrom ? 'Eureeka!' : 'Suka Blyat'}</td>
+            `;
+
+            tbody.appendChild(row);
+        });
+    </script>
+
+</body>
+</html>

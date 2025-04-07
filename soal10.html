@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <title>Pecahan Uang Kembalian</title>
+</head>
+<body>
+    <h2>Pecahan Uang Kembalian</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Total Pembayaran</th>
+                <th>Total Belanja</th>
+                <th>Total Kembalian</th>
+                <th>Kembalian</th>
+            </tr>
+        </thead>
+        <tbody id="tabel-kembalian"></tbody>
+    </table>
+
+    <script>
+        const pecahanUang = [
+            100000,
+            50000,
+            20000,
+            10000,
+            5000,
+            2000,
+            1000,
+            500,
+            200,
+            100
+        ];
+
+        const transaksi = {
+            10000 : 7500,
+            5000  : 1100,
+            178000: 90500
+        };
+
+        function tambahTransaksi(rpBayar, rpBelanja){
+            transaksi[rpBayar] = rpBelanja;
+        };
+
+        tambahTransaksi(250000, 232400);
+        
+        const tbody = document.getElementById('tabel-kembalian');
+
+        let i = 1;
+        for (let pembayaran in transaksi) {
+            const bayarInt = parseInt(pembayaran);
+            const belanja = transaksi[pembayaran];
+            let totalKembalian = pembayaran - belanja;
+            let sisaKembalian = totalKembalian;
+            const kembalian = {};
+
+            for (let uang of pecahanUang) {
+                if (sisaKembalian >= uang) {
+                    const jumlah = Math.floor(sisaKembalian / uang);
+                    kembalian[uang] = jumlah;
+                    sisaKembalian -= uang * jumlah;
+                };
+            };
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${i++}</td>
+                <td>Rp${bayarInt.toLocaleString()}</td>
+                <td>Rp${belanja.toLocaleString()}</td>
+                <td>Rp${totalKembalian.toLocaleString()}</td>
+                <td>
+                    <ul>
+                        ${Object.entries(kembalian)
+                        .sort((a, b) => b[0] - a[0])
+                        .map(([uang, jumlah]) => `<li>
+                            <span>Rp${parseInt(uang).toLocaleString()}</span>
+                            <span>x  ${jumlah}</span></li>`)
+                        .join('')}
+                    </ul>
+                </td>
+            `; 
+            
+            tbody.appendChild(row); 
+        };
+    </script>
+</body>
+</html>

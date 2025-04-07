@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+    <title>Total Transaksi</title>
+</head>
+
+<body>
+    <h2>Total Transaksi</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Nama Pelanggan</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody id="tabel-transaksi"></tbody>
+    </table>
+
+    <script>
+        const menu = [
+            {   Nama : "Ayam Goreng Krispi",
+                Tipe : "Makanan",
+                Harga: 15000},
+            {   Nama : "Ayam Puk Puk",
+                Tipe : "Makanan",
+                Harga: 13000},
+            {   Nama : "Ayam Bakar",
+                Tipe : "Makanan",
+                Harga: 20000},
+            {   Nama : "Es teh",
+                Tipe : "Makanan",
+                Harga: 5000},
+            {   Nama : "Es Jeruk",
+                Tipe : "Makanan",
+                Harga: 7000}
+        ];
+
+        const pesanan = {
+            Rehan: {
+                "Ayam Bakar"        : 2,
+                "Es teh"            : 1
+            },
+            Amba: {
+                "Ayam Puk Puk"      : 1,
+                "Es teh"            : 3
+            },
+            Faiz: {
+                "Ayam Goreng Krispi": 1,
+                "Ayam Puk Puk"      : 1,
+                "Ayam Bakar"        : 1,
+                "Es teh"            : 1,
+                "Es Jeruk"          : 1
+            }
+        };
+
+        function hitungTotal(pesananPelanggan) {
+            let subtotal = 0;
+          
+            for (let namaItem in pesananPelanggan) {
+              const jumlah = pesananPelanggan[namaItem];
+              const item = menu.find(m => m.Nama === namaItem);
+              let harga = item.Harga;
+          
+              if (item.Tipe === "Makanan") {
+                harga += harga * 0.05;
+              } else if (item.Tipe === "Minuman") {
+                harga += harga * 0.03;
+              }
+          
+              subtotal += harga * jumlah;
+            }
+          
+            const totalAkhir = subtotal + (subtotal * 0.15);
+            return Math.round(totalAkhir);
+          }
+          
+          const tbody = document.getElementById('tabel-transaksi');
+
+          let i = 1;
+          for (let nama in pesanan) {
+            const total = hitungTotal(pesanan[nama]);
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${i++}</td>
+                <td>${nama}</td>
+                <td>Rp${total.toLocaleString()}</td>
+            `;
+
+            tbody.appendChild(row);
+          }
+    </script>
+
+</body>
+</html>
